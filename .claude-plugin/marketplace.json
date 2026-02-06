@@ -1,9 +1,9 @@
 {
   "plugins": [
     {
-      "name": "codex-coder",
-      "source": "https://github.com/rlraymondluo/codex-coder",
-      "description": "Crew agents for Claude Code — smart coding router, dual plan review, and dual code review powered by Codex and Gemini CLIs",
+      "name": "agent-crew",
+      "source": "https://github.com/rlraymondluo/agent-crew-for-claude-code",
+      "description": "Agent Crew for Claude Code — smart coding router, dual plan review, and dual code review powered by Codex and Gemini CLIs",
       "version": "1.1.0"
     }
   ]

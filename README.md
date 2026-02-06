@@ -1,6 +1,6 @@
-# codex-coder
+# Agent Crew for Claude Code
 
-> Crew agents for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — smart coding router, dual plan review, and dual code review powered by [Codex](https://github.com/openai/codex) and [Gemini](https://github.com/google/gemini-cli) CLIs.
+> Smart coding router, dual plan review, and dual code review for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — powered by [Codex](https://github.com/openai/codex) and [Gemini](https://github.com/google/gemini-cli) CLIs.
 
 Install this plugin and you get four Claude Code agents and three slash commands. The "Crew" agents analyze your task and route to the best AI backend — Claude Code orchestrates everything.
 
@@ -10,15 +10,15 @@ Requires [Claude Code](https://docs.anthropic.com/en/docs/claude-code). [Codex C
 
 ```bash
 # Via plugin marketplace
-claude plugin marketplace add rlraymondluo/codex-coder
-claude plugin install codex-coder
+claude plugin marketplace add rlraymondluo/agent-crew-for-claude-code
+claude plugin install agent-crew
 ```
 
 Or clone directly:
 
 ```bash
 cd ~/.claude/plugins
-git clone https://github.com/rlraymondluo/codex-coder.git
+git clone https://github.com/rlraymondluo/agent-crew-for-claude-code.git
 ```
 
 **No extra API keys.** The plugin calls the CLIs directly — it uses whatever auth you already have set up for Codex and Gemini. If neither CLI is installed, `crew-code` falls back to Claude natively.

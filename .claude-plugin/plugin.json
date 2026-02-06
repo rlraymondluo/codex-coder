@@ -1,10 +1,10 @@
 {
-  "name": "codex-coder",
-  "description": "Crew agents for Claude Code — smart coding router, dual plan review, and dual code review powered by Codex and Gemini CLIs",
+  "name": "agent-crew",
+  "description": "Agent Crew for Claude Code — smart coding router, dual plan review, and dual code review powered by Codex and Gemini CLIs",
   "version": "1.1.0",
   "author": { "name": "Raymond Luo" },
-  "homepage": "https://github.com/rlraymondluo/codex-coder",
-  "repository": "https://github.com/rlraymondluo/codex-coder",
+  "homepage": "https://github.com/rlraymondluo/agent-crew-for-claude-code",
+  "repository": "https://github.com/rlraymondluo/agent-crew-for-claude-code",
   "license": "MIT",
   "keywords": ["codex", "gemini", "crew", "claude", "routing", "plan-review", "agent-teams", "code-review", "orchestration", "agents"]
 }

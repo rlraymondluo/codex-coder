@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Validation script for codex-coder plugin
+# Validation script for agent-crew plugin
 # Checks all verification items from the plan
 
 cd "$(dirname "$0")"
@@ -19,7 +19,7 @@ check() {
   fi
 }
 
-echo "=== codex-coder plugin validation ==="
+echo "=== agent-crew plugin validation ==="
 echo ""
 
 # Check 1: Valid JSON in both manifest files
