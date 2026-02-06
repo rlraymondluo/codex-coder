@@ -1,6 +1,7 @@
 # codex-coder
 
 > A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) plugin that lets you use OpenAI Codex as a coding agent inside Claude Code.
+Orchestrate an army of Codex agents in Claude Code. 
 
 Install this plugin and you get two new Claude Code agents and a slash command. The agents call out to the [Codex CLI](https://github.com/openai/codex) (and optionally the [Gemini CLI](https://github.com/google/gemini-cli)) to do the actual work — Claude Code orchestrates everything.
 
