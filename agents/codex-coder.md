@@ -34,9 +34,9 @@ If Codex is not installed, **stop immediately** and tell the user:
 2. Authenticate: `codex auth`
 3. Re-run this agent
 
-## Phase Notifications (MANDATORY)
+## Phase Notifications
 
-**You MUST message the team lead at every phase transition using SendMessage.** The team lead needs real-time visibility into where you are so they can intervene if needed. Use this exact format for phase updates:
+**If running as a teammate in a team**, message the team lead at every phase transition using SendMessage. If running standalone (no team), output the phase transitions as regular status messages instead. Use this exact format for phase updates:
 
 ```
 [CODEX PHASE] <phase name>
@@ -129,7 +129,7 @@ After Codex produces a plan, review it critically:
 If the plan has issues, send specific, actionable feedback:
 
 ```bash
-codex exec resume --last --sandbox read-only "
+codex exec resume --last --sandbox read-only -C <project-dir> -m gpt-5.3-codex "
 ## Feedback on Your Plan
 
 ### Issues Found

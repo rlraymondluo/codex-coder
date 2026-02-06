@@ -71,10 +71,17 @@ Before calling any reviewer, build a rich context package:
 
 ### Step 2: Build the Review Prompt
 
+First, create a unique temp directory to avoid collisions with parallel runs:
+
+```bash
+REVIEW_TMPDIR=$(mktemp -d /tmp/ai-review-XXXXXX)
+echo "Using temp directory: $REVIEW_TMPDIR"
+```
+
 Write the review prompt to a temp file for both reviewers to consume:
 
 ```bash
-cat > /tmp/ai-review-prompt.txt << 'REVIEW_EOF'
+cat > "$REVIEW_TMPDIR/prompt.txt" << 'REVIEW_EOF'
 ## Code Review Request
 
 ### What Was Built
@@ -120,19 +127,19 @@ First, decide which mode to use. Pick ONE — do not run both:
   ```bash
   codex exec --sandbox read-only -C <project-dir> -m gpt-5.3-codex "Review this code for bugs, security issues, guideline violations, and edge cases. Structure findings as CRITICAL, IMPORTANT, or SUGGESTION with file/line locations and suggested fixes.
 
-  $(cat /tmp/ai-review-prompt.txt)" > /tmp/codex-review-output.txt 2>&1
+  $(cat $REVIEW_TMPDIR/prompt.txt)" > $REVIEW_TMPDIR/codex-output.txt 2>&1
   ```
 
 - **Use `codex review`** (only for PR reviews when there's a branch to diff against main) — do NOT combine with a prompt argument:
   ```bash
-  codex review --base main -c model="gpt-5.3-codex" > /tmp/codex-review-output.txt 2>&1
+  codex review --base main -c model="gpt-5.3-codex" > $REVIEW_TMPDIR/codex-output.txt 2>&1
   ```
   Note: `-c model=` (not `-m`) for `codex review`. `--base` and `[PROMPT]` are mutually exclusive.
 
 If Gemini is available, run BOTH the Codex command above AND this Gemini command. Use the Bash tool's `run_in_background` parameter to run them in parallel — do NOT use shell `&` and `wait`:
 
 ```bash
-cat /tmp/ai-review-prompt.txt | gemini -p "You are an expert code reviewer. Read the following review request carefully and provide a thorough code review. Structure your findings by severity: CRITICAL (bugs, security issues), IMPORTANT (significant improvements), SUGGESTION (nice-to-haves). For each finding, specify the file and line number if possible, explain the issue, and suggest a fix." -m gemini-3-pro-preview > /tmp/gemini-review-output.txt 2>&1
+cat $REVIEW_TMPDIR/prompt.txt | gemini -p "You are an expert code reviewer. Read the following review request carefully and provide a thorough code review. Structure your findings by severity: CRITICAL (bugs, security issues), IMPORTANT (significant improvements), SUGGESTION (nice-to-haves). For each finding, specify the file and line number if possible, explain the issue, and suggest a fix." -m gemini-3-pro-preview > $REVIEW_TMPDIR/gemini-output.txt 2>&1
 ```
 
 If Gemini is NOT available, skip it — just run Codex alone.
@@ -212,9 +219,9 @@ For each finding, include:
 
 ### Step 5: Clean Up
 
-Remove temp files:
+Remove the temp directory:
 ```bash
-rm -f /tmp/ai-review-prompt.txt /tmp/codex-review-output.txt /tmp/gemini-review-output.txt
+rm -rf "$REVIEW_TMPDIR"
 ```
 
 ---
