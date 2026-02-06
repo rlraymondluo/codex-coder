@@ -1,24 +1,26 @@
 # codex-coder
 
-**Use Codex as a coding agent inside Claude Code.**
+> A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) plugin that lets you use OpenAI Codex as a coding agent inside Claude Code.
 
-Claude Code is great at orchestration — subagents, agent teams, plan-review loops, codebase-aware context building. Codex is great at raw code generation. This plugin combines the two: Claude directs, Codex codes, and you get the best of both without leaving Claude Code.
+Install this plugin and you get two new Claude Code agents and a slash command. The agents call out to the [Codex CLI](https://github.com/openai/codex) (and optionally the [Gemini CLI](https://github.com/google/gemini-cli)) to do the actual work — Claude Code orchestrates everything.
 
 ## Why
 
-Claude Code has the best agentic scaffolding (agent teams, subagent delegation, structured workflows), but sometimes you want Codex writing the code. Codex has strong code generation, but no built-in orchestration layer, no subagents, no iterative plan-review loops.
+Claude Code has the best agentic scaffolding — subagents, agent teams, structured workflows, codebase-aware context building. Codex is great at raw code generation. But right now you have to pick one or the other.
 
-This plugin bridges that gap. Claude reads your codebase, builds context from your CLAUDE.md and project conventions, crafts detailed prompts, reviews Codex's plans, sends feedback, and only lets Codex execute once the plan is solid. You get Claude's oversight with Codex's output.
+This plugin gives you both. Claude reads your codebase, builds context from your CLAUDE.md, crafts detailed prompts, reviews Codex's plans, sends feedback, and only lets Codex execute once the plan is solid. You get Claude's orchestration with Codex's code output.
 
-**No extra API keys or subscriptions.** The agents shell out to the Codex CLI and Gemini CLI directly — if you already have them installed and authenticated, this just works. You're using the same tools you already have.
+**No extra API keys or subscriptions.** The plugin shells out to the Codex CLI and Gemini CLI directly. If you already have them installed and authenticated, this just works — it uses whatever auth you already have set up.
 
-## What's Included
+## What You Get
 
-| File | Type | What it does |
-|------|------|--------------|
-| `agents/codex-coder.md` | Agent | Delegates coding tasks to Codex with iterative plan-review loops |
-| `agents/ai-reviewer.md` | Agent | Runs code review through Codex (and Gemini if you have it) before PRs |
-| `commands/codex-review.md` | Command | `/codex-review` — quick trigger for pre-PR review |
+This plugin installs into your `~/.claude/` directory and adds:
+
+| What | Claude Code primitive | Description |
+|------|-----------------------|-------------|
+| `agents/codex-coder.md` | [Custom agent](https://docs.anthropic.com/en/docs/claude-code/custom-agents) | Delegates coding tasks to Codex with iterative plan-review loops |
+| `agents/ai-reviewer.md` | [Custom agent](https://docs.anthropic.com/en/docs/claude-code/custom-agents) | Runs code review through Codex (and Gemini if you have it) before PRs |
+| `commands/codex-review.md` | [Slash command](https://docs.anthropic.com/en/docs/claude-code/slash-commands) | `/codex-review` — quick trigger for pre-PR review |
 
 ## How It Works
 
