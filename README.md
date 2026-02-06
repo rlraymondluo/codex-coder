@@ -25,6 +25,10 @@ claude plugin install agent-crew
 /crew-plan
 ```
 
+<p align="center">
+  <img src="assets/demo.gif" alt="Agent Crew in action" width="700">
+</p>
+
 ## Install
 
 Requires [Claude Code](https://docs.anthropic.com/en/docs/claude-code). [Codex CLI](https://github.com/openai/codex) is recommended. [Gemini CLI](https://github.com/google/gemini-cli) is optional.
