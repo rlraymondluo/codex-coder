@@ -196,7 +196,38 @@ After outputting the banner, all subsequent phase notifications use the `[CREW:<
 
 ## Step 1b: Team Mode
 
-When the user specifies a multi-agent team (detected in Priority 0), use Claude Code's native agent teams instead of single-backend routing.
+When the user specifies a multi-agent team (detected in Priority 0), use Claude Code's **native Agent Teams** — NOT regular subagents.
+
+**CRITICAL — Agent Teams vs Subagents (do NOT confuse these):**
+
+| | Agent Team (CORRECT) | Subagent (WRONG) |
+|---|---|---|
+| **Setup** | `TeamCreate` first, then `Task(team_name: ...)` | Just `Task(...)` with no team |
+| **Identity** | Named agents with display names in terminal | Anonymous, no name shown |
+| **Communication** | Can send messages via `SendMessage` | Fire-and-forget, no messaging |
+| **Coordination** | Shared task list via `TaskCreate`/`TaskList` | No shared state |
+| **Lifecycle** | Persistent until `shutdown_request` | Runs once and exits |
+
+**You MUST use Agent Teams for team mode. The sequence is:**
+1. Call `TeamCreate` FIRST — this creates the team
+2. Then call `Task` with `team_name` set — this spawns each agent INTO the team
+3. Without `TeamCreate` first, the `team_name` parameter has no team to join
+4. Without `team_name` on the `Task` call, you get a disposable subagent with no name and no team membership
+
+**Anti-pattern — do NOT do this:**
+```
+# WRONG — spawns anonymous subagents, not team members
+Task(subagent_type: "codex-coder", prompt: "do the backend work")
+Task(subagent_type: "general-purpose", prompt: "do the frontend work")
+```
+
+**Correct pattern:**
+```
+# RIGHT — creates a team, then spawns named teammates into it
+TeamCreate(team_name: "crew-user-profiles")
+Task(name: "codex-backend-1", team_name: "crew-user-profiles", subagent_type: "codex-coder", ...)
+Task(name: "claude-frontend-1", team_name: "crew-user-profiles", subagent_type: "general-purpose", ...)
+```
 
 ### Check CLI Availability Against Requested Agents
 
