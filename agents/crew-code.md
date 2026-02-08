@@ -246,14 +246,57 @@ matching those roles. If only counts were given, distribute subtasks evenly.
 ### Create Team & Spawn
 
 1. `TeamCreate(team_name: "crew-{short-task-description}")`
-2. For each agent in the roster:
-   a. `TaskCreate` with subtask description and acceptance criteria
-   b. `Task(team_name, name: agent-name, subagent_type: mapped-type)` with prompt containing:
-      - Full project context (CLAUDE.md, relevant files)
-      - The specific subtask to implement
-      - **The resolved model to use** — e.g., "Use `-m o3` for all Codex CLI commands" or "Use `-m gemini-2.5-pro` for all Gemini CLI commands". If using the default, state the default explicitly so the teammate doesn't guess.
-      - For Gemini agents: Gemini CLI commands in the prompt
-   c. `TaskUpdate(owner: agent-name)` to assign the task
+
+2. For each agent in the roster, create a task then spawn the teammate. **You MUST set the `name` parameter** — this is what gives the agent its display name in the terminal.
+
+   Example for a Codex agent:
+   ```
+   TaskCreate(subject: "Implement REST API endpoints", description: "...")
+
+   Task(
+     description: "Codex backend agent",
+     name: "codex-backend-1",
+     team_name: "crew-user-profiles",
+     subagent_type: "codex-coder",
+     prompt: "You are codex-backend-1. Your task: Implement REST API endpoints...
+              Use `-m gpt-5.3-codex` for all Codex CLI commands.
+              [Full project context, CLAUDE.md, relevant files]"
+   )
+
+   TaskUpdate(taskId: "1", owner: "codex-backend-1")
+   ```
+
+   Example for a Claude agent:
+   ```
+   Task(
+     description: "Claude frontend agent",
+     name: "claude-frontend-1",
+     team_name: "crew-user-profiles",
+     subagent_type: "general-purpose",
+     prompt: "You are claude-frontend-1. Your task: Build profile UI components...
+              [Full project context, CLAUDE.md, relevant files]"
+   )
+   ```
+
+   Example for a Gemini agent:
+   ```
+   Task(
+     description: "Gemini dashboard agent",
+     name: "gemini-dashboard-1",
+     team_name: "crew-user-profiles",
+     subagent_type: "general-purpose",
+     prompt: "You are gemini-dashboard-1. Your task: Create admin dashboard...
+              Use the Gemini CLI for all code generation:
+              gemini -m gemini-3-pro-preview -p '...'
+              [Full project context, CLAUDE.md, relevant files]"
+   )
+   ```
+
+   **Key parameters that MUST be set on every Task call:**
+   - `name` — the agent's display name (e.g., `"codex-backend-1"`). Without this, the agent has no identity in the terminal.
+   - `team_name` — must match the TeamCreate name
+   - `subagent_type` — `"codex-coder"` for Codex, `"general-purpose"` for Claude/Gemini
+   - `prompt` — must include the resolved model, full project context, and the specific subtask
 
 ### Phase Notifications in Team Mode
 
