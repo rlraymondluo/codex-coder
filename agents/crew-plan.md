@@ -21,18 +21,16 @@ Self-check before proceeding past Step 2:
 
 ---
 
-## Step 1: Extract the Plan
+## Step 1: Parse the Input
 
-Look at the conversation context. Find the plan that was just proposed. This is typically:
-- A numbered list of implementation steps
-- A file-by-file breakdown of changes
-- An architecture decision or approach description
+Your prompt contains the plan, goal, and project guidelines — passed to you by the parent agent. Extract these three sections from your prompt:
 
-If you can't find a clear plan in the conversation, ask: "I don't see a plan in the current context. What would you like me to send to Codex for review?"
+- **The plan** — the implementation plan to review
+- **The goal** — what problem the plan is solving
+- **Project guidelines** — relevant conventions from CLAUDE.md (may be empty)
 
-Also grab:
-- **The goal** — what problem is the plan solving? What did the user originally ask for?
-- **Project guidelines** — read CLAUDE.md if it exists, extract relevant conventions
+If any of these are missing or your prompt is vague (e.g., "review the current plan" with no plan text), respond with:
+"ERROR: No plan was passed to me. The command file should have extracted the plan from conversation context and included it in my prompt. Re-run /crew-plan."
 
 ## Step 2: Call Codex
 
