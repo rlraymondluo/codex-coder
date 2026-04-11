@@ -21,16 +21,17 @@ Self-check before proceeding past Step 2:
 
 ---
 
-## Step 1: Parse the Input
+## Step 1: Read the Plan
 
-Your prompt contains the plan, goal, and project guidelines — passed to you by the parent agent. Extract these three sections from your prompt:
+Your prompt contains:
+- **Plan file** — an absolute path to a temp file containing the plan (e.g., `/tmp/crew-plan-review.md`)
+- **Goal** — what the plan is trying to achieve
+- **Project dir** — the project root (use for `-C` flag and to find CLAUDE.md)
 
-- **The plan** — the implementation plan to review
-- **The goal** — what problem the plan is solving
-- **Project guidelines** — relevant conventions from CLAUDE.md (may be empty)
+**Read the plan file** using the Read tool. If the file doesn't exist or is empty, respond with:
+"ERROR: Plan file not found or empty. The /crew-plan command should have written the plan to a temp file before spawning me."
 
-If any of these are missing or your prompt is vague (e.g., "review the current plan" with no plan text), respond with:
-"ERROR: No plan was passed to me. The command file should have extracted the plan from conversation context and included it in my prompt. Re-run /crew-plan."
+Then read `<project-dir>/CLAUDE.md` if it exists to get project guidelines.
 
 ## Step 2: Call Codex
 
